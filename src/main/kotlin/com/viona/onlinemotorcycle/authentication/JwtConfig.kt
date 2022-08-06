@@ -82,7 +82,7 @@ class JwtConfig : WebSecurityConfigurerAdapter() {
 
         fun isPermit(request: HttpServletRequest): Boolean {
             val path = request.servletPath
-            return postPermit.contains(path)
+            return postPermit.contains(path) or getPermit.contains(path)
         }
     }
 }
