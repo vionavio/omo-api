@@ -1,7 +1,7 @@
 name: OMO-Online Motorcycle-API Deployment
 on:
   push:
-    branches: [ master ]
+    branches: [ feature/location-service ]
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
         run: heroku git:remote --app=${{secrets.HEROKU_APP_NAME}}
       - name: Setup heroku env
         run: heroku config:set DATABASE_URL=${{secrets.DATABASE_URL}}
-      - name: push heroku to master
+      - name: push heroku to feature/location-service
         run: |
           git fetch --unshallow origin
-          git push heroku master
+          git push heroku feature/location-service
