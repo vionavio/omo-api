@@ -5,7 +5,6 @@ import com.viona.onlinemotorcycle.driver.entity.Driver
 import com.viona.onlinemotorcycle.utils.Constant
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-import io.jsonwebtoken.io.Encoders
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration

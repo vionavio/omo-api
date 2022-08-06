@@ -5,7 +5,9 @@ import com.viona.onlinemotorcycle.customer.entity.Customer
 import com.viona.onlinemotorcycle.customer.entity.CustomerLogin
 import com.viona.onlinemotorcycle.customer.entity.CustomerRequest
 import com.viona.onlinemotorcycle.customer.entity.LoginResponse
+import com.viona.onlinemotorcycle.customer.entity.location.CustomerLocation
 import com.viona.onlinemotorcycle.customer.service.CustomerService
+import com.viona.onlinemotorcycle.utils.coordinateStringToData
 import com.viona.onlinemotorcycle.utils.toResponses
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
@@ -36,5 +38,20 @@ class CustomerController {
         @RequestBody userRequest: CustomerRequest
     ): BaseResponse<Boolean> {
         return customerService.register(userRequest.mapToNewCustomer()).toResponses()
+    }
+
+    @PostMapping("/insert/search-location")
+    fun insertLocation(
+        @RequestParam(value = "name") name: String,
+        @RequestParam(value = "coordinate") coordinate: String
+    ): BaseResponse<CustomerLocation> {
+
+        val userId = SecurityContextHolder.getContext().authentication.principal as? String
+        val userIdResult = customerService.getCustomerByCustomerId(userId.orEmpty()).toResponses()
+
+        val coordinates = coordinate.coordinateStringToData()
+        return customerService.insertSearchLocation(
+            userIdResult.data?.id.orEmpty(), name, coordinates
+        ).toResponses()
     }
 }
