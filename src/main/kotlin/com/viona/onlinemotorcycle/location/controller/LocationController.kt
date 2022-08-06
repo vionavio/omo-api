@@ -30,9 +30,9 @@ class LocationController {
 
     @GetMapping("/reverse")
     fun reverseLocation(
-        @RequestParam(value = "coordinate2", required = true) coordinate2: String
+        @RequestParam(value = "coordinate", required = true) coordinate: String
     ): BaseResponse<List<Location>> {
-        val coordinates = coordinate2.coordinateStringToData()
+        val coordinates = coordinate.coordinateStringToData()
         return locationServices.reverseLocation(coordinates).toResponses()
     }
 
