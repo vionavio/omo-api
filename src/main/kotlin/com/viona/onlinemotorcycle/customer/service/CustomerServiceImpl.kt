@@ -81,7 +81,7 @@ class CustomerServiceImpl(
     }
 
     override fun insertReverseLocation(userId: String, coordinate: Coordinate): Result<CustomerLocation> {
-        val result = fetcher.reserveLocation(coordinate).map {
+        val result = fetcher.reverseLocation(coordinate).map {
             LocationMapper.mapLocationHereToLocation(it)
         }
 

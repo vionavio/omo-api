@@ -19,8 +19,8 @@ class LocationServiceImpl(
         }
     }
 
-    override fun reserveLocation(coordinate: Coordinate): Result<List<Location>> {
-        return fetcher.reserveLocation(coordinate).map {
+    override fun reverseLocation(coordinate: Coordinate): Result<List<Location>> {
+        return fetcher.reverseLocation(coordinate).map {
             LocationMapper.mapLocationHereToLocation(it)
         }
     }

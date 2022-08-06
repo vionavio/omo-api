@@ -12,7 +12,6 @@ import com.viona.onlinemotorcycle.utils.toResponses
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
-import javax.print.DocFlavor.STRING
 
 @RestController
 @RequestMapping("/api/customer")

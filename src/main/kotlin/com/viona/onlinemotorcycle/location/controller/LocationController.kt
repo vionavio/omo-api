@@ -28,12 +28,12 @@ class LocationController {
         return locationServices.searchLocation(name, coordinates).toResponses()
     }
 
-    @GetMapping("/reserve")
-    fun reserveLocation(
+    @GetMapping("/reverse")
+    fun reverseLocation(
         @RequestParam(value = "coordinate2", required = true) coordinate2: String
     ): BaseResponse<List<Location>> {
         val coordinates = coordinate2.coordinateStringToData()
-        return locationServices.reserveLocation(coordinates).toResponses()
+        return locationServices.reverseLocation(coordinates).toResponses()
     }
 
     @GetMapping("/routes")

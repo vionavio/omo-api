@@ -48,7 +48,7 @@ class JwtConfig : WebSecurityConfigurerAdapter() {
 
         val getPermit = listOf(
             "/api/location/search",
-            "/api/location/reserve",
+            "/api/location/reverse",
             "/api/location/routes"
         )
 

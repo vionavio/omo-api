@@ -48,9 +48,9 @@ class LocationComponent {
         return getHttp(url)
     }
 
-    fun reserveLocation(coordinate: Coordinate): Result<LocationHereResponse> {
+    fun reverseLocation(coordinate: Coordinate): Result<LocationHereResponse> {
         val coordinateString = "${coordinate.latitude},${coordinate.longitude}"
-        val url = RESERVE_LOC
+        val url = REVERSE_LOC
             .replace(Key.COORDINATE, coordinateString)
         return getHttp(url)
     }
@@ -70,7 +70,7 @@ class LocationComponent {
 
     companion object {
         const val SEARCH_LOC = "https://discover.search.hereapi.com/v1/discover?at={{coordinate}}&limit=2&q={{name}}&apiKey=m_fbKitexjoJSjrMZHg3F3FZZuv0K7iLXnunwsA-0F0"
-        const val RESERVE_LOC = "https://revgeocode.search.hereapi.com/v1/revgeocode?at={{coordinate}}&lang=en-US&apiKey=m_fbKitexjoJSjrMZHg3F3FZZuv0K7iLXnunwsA-0F0"
+        const val REVERSE_LOC = "https://revgeocode.search.hereapi.com/v1/revgeocode?at={{coordinate}}&lang=en-US&apiKey=m_fbKitexjoJSjrMZHg3F3FZZuv0K7iLXnunwsA-0F0"
         const val ROUTES_POLYLINE_LOC = "https://router.hereapi.com/v8/routes?transportMode=scooter&origin={{coordinate_origin}}&destination={{coordinate_destination}}&return=polyline&apikey=m_fbKitexjoJSjrMZHg3F3FZZuv0K7iLXnunwsA-0F0"
     }
 
