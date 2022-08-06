@@ -65,12 +65,39 @@ class CustomerServiceImpl(
             LocationMapper.mapLocationHereToLocation(it)
         }
         var result2 = listOf<Location>()
-            result.map {
+        result.map {
             result2 = it
         }
-        val customerLocation = CustomerLocation().createNewLocation( userId = userId,
-            location = result2)
-        return customerRepository.insertCustomerSearchLocation(customerLocation)
+
+        if (result2.isEmpty()) {
+            throw OjolException("result location is empty")
+        } else {
+            val customerLocation = CustomerLocation().createNewLocation(
+                userId = userId,
+                location = result2
+            )
+            return customerRepository.insertCustomerSearchLocation(customerLocation)
+        }
     }
 
+    override fun insertReverseLocation(userId: String, coordinate: Coordinate): Result<CustomerLocation> {
+        val result = fetcher.reserveLocation(coordinate).map {
+            LocationMapper.mapLocationHereToLocation(it)
+        }
+
+        var result2 = listOf<Location>()
+        result.map {
+            result2 = it
+        }
+
+        if (result2.isEmpty()) {
+            throw OjolException("result location is empty")
+        } else {
+            val customerLocation = CustomerLocation().createNewLocation(
+                userId = userId,
+                location = result2
+            )
+            return customerRepository.insertCustomerReverseLocation(customerLocation)
+        }
+    }
 }

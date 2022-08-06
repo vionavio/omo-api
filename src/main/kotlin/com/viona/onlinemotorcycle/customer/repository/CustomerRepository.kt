@@ -12,4 +12,6 @@ interface CustomerRepository {
     fun getCustomerByUsername(username: String): Result<Customer>
 
     fun insertCustomerSearchLocation(searchLocation: CustomerLocation): Result<CustomerLocation>
+
+    fun insertCustomerReverseLocation(searchLocation: CustomerLocation): Result<CustomerLocation>
 }

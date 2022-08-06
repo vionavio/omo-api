@@ -12,6 +12,7 @@ import com.viona.onlinemotorcycle.utils.toResponses
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
+import javax.print.DocFlavor.STRING
 
 @RestController
 @RequestMapping("/api/customer")
@@ -45,13 +46,21 @@ class CustomerController {
         @RequestParam(value = "name") name: String,
         @RequestParam(value = "coordinate") coordinate: String
     ): BaseResponse<CustomerLocation> {
-
-        val userId = SecurityContextHolder.getContext().authentication.principal as? String
-        val userIdResult = customerService.getCustomerByCustomerId(userId.orEmpty()).toResponses()
-
+        val userId = getCustomer().data?.id.orEmpty()
         val coordinates = coordinate.coordinateStringToData()
         return customerService.insertSearchLocation(
-            userIdResult.data?.id.orEmpty(), name, coordinates
+            userId, name, coordinates
+        ).toResponses()
+    }
+
+    @PostMapping("/insert/reverse-location")
+    fun insertReverseLocation(
+        @RequestParam(value = "coordinate") coordinate: String
+    ): BaseResponse<CustomerLocation> {
+        val userId = getCustomer().data?.id.orEmpty()
+        val coordinates = coordinate.coordinateStringToData()
+        return customerService.insertReverseLocation(
+            userId, coordinates
         ).toResponses()
     }
 }

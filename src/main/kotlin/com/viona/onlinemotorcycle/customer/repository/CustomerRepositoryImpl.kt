@@ -41,7 +41,15 @@ class CustomerRepositoryImpl(
         val existingUser = getCustomerById(searchLocation.idUser)
         if (existingUser.isSuccess) {
             getCollectionLocation().insertOne(searchLocation).wasAcknowledged().toResult()
-            return  getCollectionLocation().findOne(CustomerLocation::idLocation eq searchLocation.idLocation).toResult()
+            return getCollectionLocation().findOne(CustomerLocation::idLocation eq searchLocation.idLocation).toResult()
+        } else throw OjolException("User doesnt exist")
+    }
+
+    override fun insertCustomerReverseLocation(searchLocation: CustomerLocation): Result<CustomerLocation> {
+        val existingUser = getCustomerById(searchLocation.idUser)
+        if (existingUser.isSuccess) {
+            getCollectionLocation().insertOne(searchLocation).wasAcknowledged().toResult()
+            return getCollectionLocation().findOne(CustomerLocation::idLocation eq searchLocation.idLocation).toResult()
         } else throw OjolException("User doesnt exist")
     }
 

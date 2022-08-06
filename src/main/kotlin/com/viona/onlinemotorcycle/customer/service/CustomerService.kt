@@ -17,4 +17,6 @@ interface CustomerService {
     fun searchLocation(id: String, name: String, coordinate: Coordinate): Result<List<Location>>?
     fun insertSearchLocation(userId: String, name: String, coordinate: Coordinate): Result<CustomerLocation>
 
+    fun insertReverseLocation(userId: String, coordinate: Coordinate): Result<CustomerLocation>
+
 }
