@@ -35,6 +35,7 @@ class JwtConfig : WebSecurityConfigurerAdapter() {
             .addFilterAt(authenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
             .authorizeRequests()
             .antMatchers(HttpMethod.POST, *postPermit.toTypedArray()).permitAll()
+            .antMatchers(HttpMethod.GET, *getPermit.toTypedArray()).permitAll()
             .anyRequest().authenticated()
     }
 
@@ -46,14 +47,20 @@ class JwtConfig : WebSecurityConfigurerAdapter() {
             "/api/driver/login"
         )
 
+        val getPermit = listOf(
+            "/api/location/search",
+            "/api/location/reserve",
+            "/api/location/routes"
+        )
+
+        private val expired = Date(System.currentTimeMillis() + (60_000 * 60 * 24))
         fun generateToken(user: Customer): String {
-            val subject = user.id
-            val expired = Date(System.currentTimeMillis() + (60_000 * 60 * 24))
-            val granted = AuthorityUtils.commaSeparatedStringToAuthorityList(user.username)
-            val grantedStream = granted.stream().map { it.authority }.collect(Collectors.toList())
+            val grantedStream =
+                AuthorityUtils.commaSeparatedStringToAuthorityList(user.username).stream().map { it.authority }
+                    .collect(Collectors.toList())
 
             return Jwts.builder()
-                .setSubject(subject)
+                .setSubject(user.id)
                 .claim(Constant.CLAIMS, grantedStream)
                 .setExpiration(expired)
                 .signWith(Keys.hmacShaKeyFor(Constant.SECRET.toByteArray()), SignatureAlgorithm.HS256)
@@ -61,13 +68,12 @@ class JwtConfig : WebSecurityConfigurerAdapter() {
         }
 
         fun generateTokenDriver(driver: Driver): String {
-            val subjectDriver = driver.id
-            val expired = Date(System.currentTimeMillis() + (60_000 * 60 * 24))
-            val granted = AuthorityUtils.commaSeparatedStringToAuthorityList(driver.username)
-            val grantedStream = granted.stream().map { it.authority }.collect(Collectors.toList())
+            val grantedStream =
+                AuthorityUtils.commaSeparatedStringToAuthorityList(driver.username).stream().map { it.authority }
+                    .collect(Collectors.toList())
 
             return Jwts.builder()
-                .setSubject(subjectDriver)
+                .setSubject(driver.id)
                 .claim(Constant.CLAIMS, grantedStream)
                 .setExpiration(expired)
                 .signWith(Keys.hmacShaKeyFor(Constant.SECRET.toByteArray()), SignatureAlgorithm.HS256)
