@@ -5,6 +5,7 @@ import com.viona.onlinemotorcycle.location.entity.model.Coordinate
 import com.viona.onlinemotorcycle.location.entity.model.Location
 import com.viona.onlinemotorcycle.location.entity.model.Routes
 import com.viona.onlinemotorcycle.location.mapper.LocationMapper
+import com.viona.onlinemotorcycle.utils.orThrow
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -19,9 +20,9 @@ class LocationServiceImpl(
         }
     }
 
-    override fun reverseLocation(coordinate: Coordinate): Result<List<Location>> {
+    override fun reverseLocation(coordinate: Coordinate): Result<Location> {
         return fetcher.reverseLocation(coordinate).map {
-            LocationMapper.mapLocationHereToLocation(it)
+            LocationMapper.mapLocationHereToLocation(it).firstOrNull().orThrow("Location not found")
         }
     }
 
