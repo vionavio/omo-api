@@ -1,7 +1,7 @@
 package com.viona.onlinemotorcycle.authentication
 
-import com.viona.onlinemotorcycle.customer.entity.Customer
 import com.viona.onlinemotorcycle.driver.entity.Driver
+import com.viona.onlinemotorcycle.user.entity.User
 import com.viona.onlinemotorcycle.utils.Constant
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -40,10 +40,9 @@ class JwtConfig : WebSecurityConfigurerAdapter() {
 
     companion object {
         val postPermit = listOf(
-            "/api/customer/login",
-            "/api/customer/register",
-            "/api/driver/register",
-            "/api/driver/login"
+            "/api/user/login",
+            "/api/user/customer/register",
+            "/api/user/driver/register"
         )
 
         val getPermit = listOf(
@@ -53,7 +52,7 @@ class JwtConfig : WebSecurityConfigurerAdapter() {
         )
 
         private val expired = Date(System.currentTimeMillis() + (60_000 * 60 * 24))
-        fun generateToken(user: Customer): String {
+        fun generateToken(user: User): String {
             val grantedStream =
                 AuthorityUtils.commaSeparatedStringToAuthorityList(user.username).stream().map { it.authority }
                     .collect(Collectors.toList())
@@ -66,6 +65,7 @@ class JwtConfig : WebSecurityConfigurerAdapter() {
                 .compact()
         }
 
+        //ll be deleted soon
         fun generateTokenDriver(driver: Driver): String {
             val grantedStream =
                 AuthorityUtils.commaSeparatedStringToAuthorityList(driver.username).stream().map { it.authority }

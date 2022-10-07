@@ -25,14 +25,15 @@ class CustomerServiceImpl(
     override fun login(userLogin: CustomerLogin): Result<LoginResponse> {
         val resultUser = customerRepository.getCustomerByUsername(userLogin.username)
         return resultUser.map {
-            val token = JwtConfig.generateToken(it)
-            val passwordInDb = it.password
-            val passwordRequest = userLogin.password
-            if (passwordInDb == passwordRequest) {
-                LoginResponse(token)
-            } else {
-                throw OjolException("Password invalid")
-            }
+//            val token = JwtConfig.generateToken(it)
+//            val passwordInDb = it.password
+//            val passwordRequest = userLogin.password
+//            if (passwordInDb == passwordRequest) {
+//                LoginResponse(token)
+//            } else {
+//                throw OjolException("Password invalid")
+//            }
+            throw OjolException("Password invalid")
         }
     }
 
